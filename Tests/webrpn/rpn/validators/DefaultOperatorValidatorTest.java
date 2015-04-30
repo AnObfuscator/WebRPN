@@ -1,4 +1,4 @@
-package webrpn.rpn;
+package webrpn.rpn.validators;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,7 +9,7 @@ import webrpn.rpn.Operator;
 import webrpn.rpn.OperatorValidator;
 import webrpn.rpn.validators.DefaultOperatorValidator;
 
-public class DefaultOperatorValidatorTest 
+public class DefaultOperatorValidatorTest
 {
 	Operator mockOperator;
 	

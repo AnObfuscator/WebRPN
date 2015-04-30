@@ -1,4 +1,4 @@
-package webrpn.rpn;
+package webrpn.services;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -14,7 +14,7 @@ import webrpn.rpn.ExpressionParser;
 import webrpn.rpn.InputResult;
 import webrpn.rpn.InputValidator;
 
-public class CalculatorTest 
+public class CalculatorServiceTest
 {
 	ExpressionParser mockParser;
 	InputValidator mockInputValidator;
@@ -40,9 +40,9 @@ public class CalculatorTest
 		ArgumentCaptor<String> outCaptor = ArgumentCaptor.forClass(String.class);
 		Mockito.doNothing().when(mockPrintStream).println(outCaptor.capture());
 		
-//		Calculator calculator = new Calculator(mockParser, mockInputValidator, mockPrintStream);
-//		
-//		calculator.process(new String[0], "test");
+		CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
+
+		calculator.calculate("test");
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.times(1)).parseExpression(Mockito.any(String[].class));
@@ -62,10 +62,10 @@ public class CalculatorTest
 		
 		ArgumentCaptor<String> outCaptor = ArgumentCaptor.forClass(String.class);
 		Mockito.doNothing().when(mockPrintStream).println(outCaptor.capture());
-		
-//		Calculator calculator = new Calculator(mockParser, mockInputValidator, mockPrintStream);
-//		
-//		calculator.process(new String[0], "test");
+
+        CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
+
+        calculator.calculate("test");
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.times(1)).parseExpression(Mockito.any(String[].class));
@@ -86,10 +86,10 @@ public class CalculatorTest
 		
 		ArgumentCaptor<String> outCaptor = ArgumentCaptor.forClass(String.class);
 		Mockito.doNothing().when(mockPrintStream).println(outCaptor.capture());
-		
-//		Calculator calculator = new Calculator(mockParser, mockInputValidator, mockPrintStream);
-//		
-//		calculator.process(new String[0], "test usage");
+
+        CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
+
+        calculator.calculate("test usage");
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.never()).parseExpression(Mockito.any(String[].class));
@@ -108,10 +108,10 @@ public class CalculatorTest
 		
 		ArgumentCaptor<String> outCaptor = ArgumentCaptor.forClass(String.class);
 		Mockito.doNothing().when(mockPrintStream).println(outCaptor.capture());
-		
-//		Calculator calculator = new Calculator(mockParser, mockInputValidator, mockPrintStream);
-//		
-//		calculator.process(new String[0], "test");
+
+        CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
+
+        calculator.calculate("test");
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.never()).parseExpression(Mockito.any(String[].class));
