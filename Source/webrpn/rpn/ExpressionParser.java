@@ -3,8 +3,8 @@ package webrpn.rpn;
 import java.util.Map;
 import java.util.Stack;
 
+import com.google.common.primitives.Doubles;
 import webrpn.dependencies.Operators;
-import webrpn.rpn.Operator;
 
 import com.google.inject.Inject;
 
@@ -20,11 +20,11 @@ public class ExpressionParser
 	
 	public double parseExpression(String[] input)
 	{
-		Stack<Double> stack = new Stack<Double>();
+		Stack<Double> stack = new Stack<>();
 		
 		for(String token : input)
 		{	
-			Double value = tryParse(token);
+			Double value = Doubles.tryParse(token);
 			
 			if (value != null)
 			{
@@ -54,26 +54,10 @@ public class ExpressionParser
 		
 		if (stack.size() != 1)
 		{
-			throw new IllegalStateException("Error: Operator/operand missmatch.");
+			throw new IllegalStateException("Error: Operator/operand mismatch.");
 		}
 		
 		return stack.pop();
 	}
 
-	private Double tryParse(String token) 
-	{
-		Double result = null;
-		
-		// This is kind of horrific. I'm sorry.
-		try 
-		{
-			result = Double.parseDouble(token);
-		}
-		catch (NumberFormatException e)
-		{
-			// explicit do nothing
-		}
-
-		return result;
-	}
 }
