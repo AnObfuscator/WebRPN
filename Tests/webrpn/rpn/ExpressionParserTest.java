@@ -30,7 +30,7 @@ public class ExpressionParserTest
 	@Test(expected=NullPointerException.class)
 	public void Test_parseExpression_NullInputThrowsException()
 	{
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		operators.put("ta", mockOp1);
 		
 		ExpressionParser parser = new ExpressionParser(operators);
@@ -38,10 +38,10 @@ public class ExpressionParserTest
 		parser.parseExpression(null);
 	}
 	
-	@Test(expected=EmptyStackException.class)
+	@Test(expected=IllegalStateException.class)
 	public void Test_parseExpression_EmptyInputThrowsException()
 	{
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		operators.put("ta", mockOp1);
 		
 		ExpressionParser parser = new ExpressionParser(operators);
@@ -52,7 +52,7 @@ public class ExpressionParserTest
 	@Test(expected=NullPointerException.class)
 	public void Test_parseExpression_InputOfNullsThrowsException()
 	{
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		operators.put("ta", mockOp1);
 		
 		ExpressionParser parser = new ExpressionParser(operators);
@@ -63,7 +63,7 @@ public class ExpressionParserTest
 	@Test(expected=IllegalArgumentException.class)
 	public void Test_parseExpression_UnknownTokenThrowsException()
 	{
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		operators.put("ta", mockOp1);
 		
 		String[] input = new String[] { "3", "4" , "wrong" };
@@ -76,7 +76,7 @@ public class ExpressionParserTest
 	@Test
 	public void Test_parseExpression_GetsNumOpsAndCallsEval()
 	{
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		operators.put("ta", mockOp1);
 		
 		Mockito.doReturn(2).when(mockOp1).getNumberOfOperands();
@@ -102,7 +102,7 @@ public class ExpressionParserTest
 	@Test
 	public void Test_parseExpression_GetsNumOpsAndCallsEvalForMultipleOps()
 	{
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		operators.put("ta", mockOp1);
 		operators.put("tb", mockOp2);
 		operators.put("tc", mockOp3);

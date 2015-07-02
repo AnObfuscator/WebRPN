@@ -39,7 +39,7 @@ public class App
 	{
 		OperatorValidator defaultValidator = new DefaultOperatorValidator();
 		
-		Map<String, Operator> operators = new HashMap<String, Operator>();
+		Map<String, Operator> operators = new HashMap<>();
 		
 		addOperator(operators, new Add("Add", defaultValidator));
 		addOperator(operators, new Cosine("Cosine", defaultValidator));
