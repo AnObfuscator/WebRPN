@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CalculationRequest 
 {
-	private String expression;
+	private String expression = "";
 	
 	@JsonProperty
 	public String getExpression() 

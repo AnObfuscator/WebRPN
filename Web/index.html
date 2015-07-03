@@ -1,22 +1,39 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="js/webrpn.js"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="angular/angular.js"></script>
+    <script type="text/javascript" src="angular/angular-resource.js"></script>
+    <script type="text/javascript" src="js/webrpn-app.js"></script>
 </head>
-<body>
-<h1>WebRPN</h1>
 
-<form id="inputForm">
-<em>Enter RPN expression or 'help' for usage</em>
-<br />
-<input type="text" id="expressionInput" name="expression" />
-</form>
+<body ng-app="webRpnApp">
 
-<div id="result"></div>
+<div ng-view class="view-container">
+    <div ng-controller="WebRpnCtrl" class="view-frame">
+        <h1>WebRPN</h1>
 
-<h3>History:</h3>
-<div id="history"></div>
+        <form id="inputForm">
+            <em>Enter RPN expression or 'help' for usage</em>
+            <br />
+            <input type="text" name="expression" ng-model="expression" />
+            <input type="submit" ng-click="calculate(expression)" value="Calculate" />
+        </form>
+
+        <div class="result">
+            <div>Expression: {{result.expression}} </div>
+            <div>Result: {{result.result}} </div>
+        </div>
+
+        <h3>History:</h3>
+        <div id="history">
+            <div data-ng-repeat="element in history">
+                <div>Expression: {{element.expression}} </div>
+                <div>Result: {{element.result}} </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
-</html> 
+</html>
