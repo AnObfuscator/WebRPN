@@ -7,6 +7,8 @@ import webrpn.rpn.InputValidator;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import webrpn.types.CalculationInput;
+import webrpn.types.CalculationResult;
 
 @Singleton
 public class CalculatorService 
@@ -23,9 +25,11 @@ public class CalculatorService
 		this.allowedOperators = allowedOperators;
 	}
 	
-	public String calculate(String expression) 
+	public CalculationResult calculate(CalculationInput input)
 	{
-		String result = null;
+        String expression = input.getExpression();
+        CalculationResult result = new CalculationResult();
+        result.setExpression(expression);
 		
 		String[] expressionArray = expression.split(" ");
 		InputResult inputResult = inputValidator.validate(expressionArray);
@@ -33,24 +37,32 @@ public class CalculatorService
     	{
     		try 
     		{
-				String[] input = inputResult.getValidatedInput();
-				double calculation = parser.parseExpression(input);
-				result = Double.toString(calculation);
+				String[] validatedInput = inputResult.getValidatedInput();
+				double calculation = parser.parseExpression(validatedInput);
+                String output = Double.toString(calculation);
+                result.setResult(output);
+                result.setIsError(false);
 			} 
     		catch (Exception e) 
     		{
-				result = String.format("Parsing error: %s. Try again or enter 'help' for usage.", e.getMessage());
+                String output = String.format("Parsing error: %s. Try again or enter 'help' for usage.", e.getMessage());
+                result.setResult(output);
+                result.setIsError(true);
 			}
     	}
 		else if (inputResult.isHelpRequest())
-		{	
-			result = String.format("Allowed operators: %s", allowedOperators);
+		{
+            String output = String.format("Allowed operators: %s", allowedOperators);
+            result.setResult(output);
+            result.setIsError(false);
 		}
 		else
 		{
-    		result = String.format("Error reading input: %s. Try again or enter 'help' for usage.", inputResult.getError());
+            String output = String.format("Error reading input: %s. Try again or enter 'help' for usage.", inputResult.getError());
+            result.setResult(output);
+            result.setIsError(true);
 		}
-    	
+
     	return result;
 	}
 

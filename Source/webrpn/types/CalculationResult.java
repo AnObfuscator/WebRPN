@@ -1,11 +1,16 @@
 package webrpn.types;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.escape.Escaper;
+import com.google.common.html.HtmlEscapers;
 
 public class CalculationResult 
 {
-	private String expression;
+    private final Escaper html = HtmlEscapers.htmlEscaper();
+
+    private String expression;
 	private String result;
+    private boolean isError;
 	
 	@JsonProperty
 	public String getExpression() 
@@ -14,7 +19,7 @@ public class CalculationResult
 	}
 	public void setExpression(String expression) 
 	{
-		this.expression = expression;
+		this.expression = html.escape(expression);
 	}
 	
 	@JsonProperty
@@ -24,6 +29,16 @@ public class CalculationResult
 	}
 	public void setResult(String result) 
 	{
-		this.result = result;
+		this.result = html.escape(result);
 	}
+    
+    @JsonProperty
+    public boolean getIsError() 
+    { 
+        return isError; 
+    }
+    public void setIsError(boolean isError) 
+    {
+        this.isError = isError;
+    }
 }

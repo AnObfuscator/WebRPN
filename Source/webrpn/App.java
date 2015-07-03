@@ -68,6 +68,7 @@ public class App
                 
         System.out.println("\nSetting static resources...");
         servletContext.setResourceBase("./Web");
+        servletContext.setWelcomeFiles(new String[] {"index.html"});
         
         System.out.println("\nStarting server.");
         server.start();

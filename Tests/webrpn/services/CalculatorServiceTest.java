@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 import webrpn.rpn.ExpressionParser;
 import webrpn.rpn.InputResult;
 import webrpn.rpn.InputValidator;
+import webrpn.types.CalculationInput;
+import webrpn.types.CalculationResult;
 
 public class CalculatorServiceTest
 {
@@ -29,7 +31,10 @@ public class CalculatorServiceTest
 	@Test
 	public void Test_process_ValidResultWritesOutput()
 	{
-		InputResult inputResult = new InputResult();
+        CalculationInput input = new CalculationInput();
+        input.setExpression("test");
+
+        InputResult inputResult = new InputResult();
 		inputResult.setValidatedInput(new String[0]);
 		
 		Mockito.doReturn(inputResult).when(mockInputValidator).validate(Mockito.any(String[].class));
@@ -37,18 +42,21 @@ public class CalculatorServiceTest
 
 		CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
 
-		String result = calculator.calculate("test");
+		CalculationResult result = calculator.calculate(input);
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.times(1)).parseExpression(Mockito.any(String[].class));
 
-        Assert.assertEquals("42.0", result);
+        Assert.assertEquals("42.0", result.getResult());
 	}
 	
 	@Test
 	public void Test_process_ValidResultHandlesParseException()
 	{
-		InputResult inputResult = new InputResult();
+        CalculationInput input = new CalculationInput();
+        input.setExpression("test");
+
+        InputResult inputResult = new InputResult();
 		inputResult.setValidatedInput(new String[0]);
 		
 		Mockito.doReturn(inputResult).when(mockInputValidator).validate(Mockito.any(String[].class));
@@ -56,17 +64,20 @@ public class CalculatorServiceTest
 		
         CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
 
-        String result = calculator.calculate("test");
+        CalculationResult result = calculator.calculate(input);
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.times(1)).parseExpression(Mockito.any(String[].class));
 
-        Assert.assertEquals("Parsing error: test error msg. Try again or enter 'help' for usage.", result);
+        Assert.assertEquals("Parsing error: test error msg. Try again or enter 'help' for usage.", result.getResult());
 	}
 	
 	@Test
 	public void Test_process_HelpResultWritesHelpMessage()
 	{
+        CalculationInput input = new CalculationInput();
+        input.setExpression("test usage");
+        
 		InputResult inputResult = new InputResult();
 		inputResult.setIsHelp();
 		
@@ -74,29 +85,32 @@ public class CalculatorServiceTest
 
         CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "sample ops");
 
-        String result = calculator.calculate("test usage");
+        CalculationResult result = calculator.calculate(input);
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.never()).parseExpression(Mockito.any(String[].class));
 
-		Assert.assertEquals("Allowed operators: sample ops", result);
+		Assert.assertEquals("Allowed operators: sample ops", result.getResult());
 	}
 
 	@Test
 	public void Test_process_InvalidResultWritesErrorMessage()
 	{
-		InputResult inputResult = new InputResult();
+        CalculationInput input = new CalculationInput();
+        input.setExpression("test");
+
+        InputResult inputResult = new InputResult();
 		inputResult.setError("test error msg");
 		
 		Mockito.doReturn(inputResult).when(mockInputValidator).validate(Mockito.any(String[].class));
 
         CalculatorService calculator = new CalculatorService(mockParser, mockInputValidator, "");
 
-        String result = calculator.calculate("test");
+        CalculationResult result = calculator.calculate(input);
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.never()).parseExpression(Mockito.any(String[].class));
         
-        Assert.assertEquals("Error reading input: test error msg. Try again or enter 'help' for usage.", result);
+        Assert.assertEquals("Error reading input: test error msg. Try again or enter 'help' for usage.", result.getResult());
 	}
 }

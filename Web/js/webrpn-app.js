@@ -9,14 +9,27 @@ angular.module('webRpnControllers', []).controller('WebRpnCtrl', ['$scope', 'Cal
     function($scope, Calculator) {
         var self = this;
 
-        var history = Calculator.history();
-        if (history.length > 0) {
-            $scope.result = history.pop();
-        }
-        $scope.history = history;
+        Calculator.history().$promise.then(function (history){
+            if (history.length > 0) {
+                $scope.result = history.shift();
+            }
+            $scope.history = history;
+        });
 
         $scope.calculate = function(expression) {
+            $scope.expression = null;
             Calculator.calculate(expression).$promise.then(self._updateResult);
+        };
+        
+        $scope.getClass = function(result) {
+            if (result.isError) {
+                return "bg-danger";
+            }
+            return "bg-success";
+        };
+        
+        $scope.reenter = function(result) {
+            $scope.expression = result.expression;
         };
         
         self._updateResult = function (result) {

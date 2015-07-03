@@ -7,11 +7,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import webrpn.types.CalculationRequest;
+import webrpn.types.CalculationInput;
 import webrpn.types.CalculationResult;
-
-import com.google.common.escape.Escaper;
-import com.google.common.html.HtmlEscapers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,29 +29,19 @@ public class CalculatorResource
 	@Path("calculate")
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public CalculationResult calculate(CalculationRequest input, @Context HttpServletRequest request)
-	{		
-		Escaper html = HtmlEscapers.htmlEscaper();
-		
-        String expression = input.getExpression();
-        String escapedExpression = html.escape(expression);
-		
-		String result = calculatorService.calculate(escapedExpression);
-        String escapedResult = html.escape(result);
+	public CalculationResult calculate(CalculationInput input, @Context HttpServletRequest request)
+	{
+		CalculationResult result = calculatorService.calculate(input);
 
-        CalculationResult response = new CalculationResult();
-        response.setExpression(escapedExpression);
-        response.setResult(escapedResult);
-        
         HttpSession session = request.getSession();
         Object history = session.getAttribute("history");
         if (history == null) {
             history = new ArrayList<CalculationResult>();
             session.setAttribute("history", history);
         }
-        ((List<CalculationResult>)history).add(0, response);
+        ((List<CalculationResult>)history).add(0, result);
         
-		return response;
+		return result;
 	}
     
     @GET

@@ -1,0 +1,13 @@
+body {
+    padding-top: 65px;
+}
+
+td textarea {
+    width: 100%;
+    height: 100%
+}
+
+dd textarea {
+    width: 100%;
+    height: 100%
+}
