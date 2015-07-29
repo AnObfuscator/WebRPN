@@ -10,7 +10,7 @@
 
 <body ng-app="webRpnApp">
 
-<div ng-view class="container-fluid">
+<div ng-view class="container">
     <div ng-controller="WebRpnCtrl" class="view-frame">
         
         <div class="page-header">
@@ -18,7 +18,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-8">
                 <em>Enter RPN expression or 'help' for usage</em>
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Enter expression..." ng-model="expression" />
@@ -29,8 +29,8 @@
             </div>
         </div>
 
-        <div id="result" class="row">
-            <div class="col-lg-4">
+        <div id="result" class="row" ng-model="result">
+            <div class="col-lg-8">
                 <dl class="dl-horizontal {{getClass(result)}}" ng-click="reenter(result)">
                     <dt>Expression:</dt>
                     <dd>{{result.expression}}</dd>
@@ -41,7 +41,7 @@
         </div>
 
         <div id="history" class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-8">
                 <h3>History:</h3>
                 <dl class="dl-horizontal {{getClass(element)}}" data-ng-repeat="element in history" ng-click="reenter(element)">
                     <dt>Expression:</dt>

@@ -1,37 +1,40 @@
 'use strict';
 
-var webRpnApp = angular.module('webRpnApp', [
+angular.module('webRpnApp', [
     'webRpnControllers',
     'webRpnServices'
 ]);
 
 angular.module('webRpnControllers', []).controller('WebRpnCtrl', ['$scope', 'Calculator',
-    function($scope, Calculator) {
+    function ($scope, Calculator) {
         var self = this;
-
-        Calculator.history().$promise.then(function (history){
-            if (history.length > 0) {
-                $scope.result = history.shift();
-            }
-            $scope.history = history;
-        });
-
-        $scope.calculate = function(expression) {
+        
+        $scope.calculate = function (expression) {
             $scope.expression = null;
             Calculator.calculate(expression).$promise.then(self._updateResult);
         };
         
-        $scope.getClass = function(result) {
+        $scope.getClass = function (result) {
+            if (!result) {
+                return "";
+            }
             if (result.isError) {
                 return "bg-danger";
             }
             return "bg-success";
         };
         
-        $scope.reenter = function(result) {
+        $scope.reenter = function (result) {
             $scope.expression = result.expression;
         };
-        
+
+        self._restoreFromHistory = function (history) {
+            if (history.length > 0) {
+                $scope.result = history.shift();
+            }
+            $scope.history = history;
+        };
+
         self._updateResult = function (result) {
             var oldResult = $scope.result;
             if (oldResult) {
@@ -39,8 +42,9 @@ angular.module('webRpnControllers', []).controller('WebRpnCtrl', ['$scope', 'Cal
             }
             $scope.result = result;
         };
-        
-        
+
+        Calculator.history().$promise.then(self._restoreFromHistory);
+
     }]);
 
 angular.module('webRpnServices', ['ngResource']).factory('Calculator', ['$resource',
