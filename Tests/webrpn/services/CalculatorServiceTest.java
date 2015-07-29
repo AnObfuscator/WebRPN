@@ -69,7 +69,7 @@ public class CalculatorServiceTest
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.times(1)).parseExpression(Mockito.any(String[].class));
 
-        Assert.assertEquals("Parsing error: test error msg. Try again or enter 'help' for usage.", result.getResult());
+        Assert.assertEquals("Parsing error: test error msg. Try again or enter &#39;help&#39; for usage.", result.getResult());
 	}
 	
 	@Test
@@ -110,7 +110,7 @@ public class CalculatorServiceTest
 		
 		Mockito.verify(mockInputValidator, Mockito.times(1)).validate(Mockito.any(String[].class));
 		Mockito.verify(mockParser, Mockito.never()).parseExpression(Mockito.any(String[].class));
-        
-        Assert.assertEquals("Error reading input: test error msg. Try again or enter 'help' for usage.", result.getResult());
+
+        Assert.assertEquals("Error reading input: test error msg. Try again or enter &#39;help&#39; for usage.", result.getResult());
 	}
 }
